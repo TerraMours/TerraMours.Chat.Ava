@@ -38,11 +38,21 @@ namespace TerraMours.Chat.Ava {
             get => _databaseSettingsViewModel ??= new DatabaseSettingsViewModel();
             set => _databaseSettingsViewModel = value;
         }
-
+        private static LoginViewModel _loginViewModel;
+        public static LoginViewModel LoginViewModel {
+            get => _loginViewModel ??= new LoginViewModel();
+            set => _loginViewModel = value;
+        }
         private static ChatDbcontext _chatDbcontext;
         public static ChatDbcontext ChatDbcontext {
             get => (_chatDbcontext ??= new ChatDbcontext());
             set => _chatDbcontext = value;
+        }
+
+        private static string _appToken;
+        public static string AppToken {
+            get => (_appToken);
+            set => _appToken = value;
         }
     }
 }
