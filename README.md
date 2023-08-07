@@ -1,5 +1,5 @@
 # TerraMours.Chat.Ava
-基于Avalonia的智能AI会话项目，接入ChatGpt
+terramours.gpt项目跨平台的访问客户端项目，调用的terramours.gpt后端服务实现客户端访问gpt，后续添加AI绘图功能。
 ## 1.nuget包引用
 
 ![image-20230717150959484](https://www.raokun.top/upload/2023/07/image-20230717150959484.png)
