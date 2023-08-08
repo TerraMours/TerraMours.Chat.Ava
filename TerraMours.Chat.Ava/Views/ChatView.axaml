@@ -15,7 +15,9 @@
 				<ItemsControl Width="{Binding Width,ElementName=Scroll}" ItemsSource="{Binding ChatHistory}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Border
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding CreateDate}" />
+                                <Border
 							   Name="MessageBorder"
 							   Background="{Binding Role, Converter={StaticResource ChatBackgroundConverter}}"
 							   HorizontalAlignment="Left"
@@ -87,6 +89,7 @@
 									</md:MarkdownScrollViewer.ContextMenu>
 								</md:MarkdownScrollViewer>
 							</Border>
+                            </StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
