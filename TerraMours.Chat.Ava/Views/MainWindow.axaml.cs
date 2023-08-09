@@ -73,10 +73,10 @@ namespace TerraMours.Chat.Ava.Views {
                 this.Position = new PixelPoint(5, 0);
             }
 
-
-            if (!File.Exists(settings.DbPath)) {
-                _chatPross.CreateDatabase();
-            }
+            
+            //if (!File.Exists(settings.DbPath)) {
+            //    _chatPross.CreateDatabase();
+            //}
 
 
             VMLocator.MainViewModel.SelectedPhraseItem = settings.PhrasePreset;
@@ -126,8 +126,9 @@ namespace TerraMours.Chat.Ava.Views {
             _previousWidth = ClientSize.Width;
 
             //Êý¾Ý¼ÓÔØ
-            VMLocator.DataGridViewModel.ChatList=VMLocator.ChatDbcontext.ChatLists.ToObservableCollection();
-            VMLocator.ChatViewModel.ChatHistory = VMLocator.ChatDbcontext.ChatMessages.ToObservableCollection();
+            //VMLocator.DataGridViewModel.ChatList=VMLocator.ChatDbcontext.ChatLists.ToObservableCollection();
+            //VMLocator.ChatViewModel.ChatHistory = VMLocator.ChatDbcontext.ChatMessages.ToObservableCollection();
+            await VMLocator.MainViewModel.GptChatConversationList();
 
             if (string.IsNullOrWhiteSpace(VMLocator.MainWindowViewModel.ApiKey)) {
                 var dialog = new ContentDialog() { Title = $"Please enter your API key.", PrimaryButtonText = "OK" };

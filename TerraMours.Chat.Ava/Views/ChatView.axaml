@@ -10,8 +10,9 @@
 			 xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
              x:Class="TerraMours.Chat.Ava.Views.ChatView">
 	<Grid>
-		<ScrollViewer Name="Scroll" Margin="0,10,0,0">
-			<Grid>
+		<ScrollViewer Name="Scroll" Margin="0,10,0,0" ScrollChanged="Scroll_OnScrollChanged">
+
+            <Grid>
 				<ItemsControl Width="{Binding Width,ElementName=Scroll}" ItemsSource="{Binding ChatHistory}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>

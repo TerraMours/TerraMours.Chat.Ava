@@ -10,12 +10,12 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using AvaloniaEdit.Utils;
 using TerraMours.Chat.Ava.Models;
 using TerraMours.Chat.Ava.Models.Class;
 
 namespace TerraMours.Chat.Ava.ViewModels {
     public class DataGridViewModel : ViewModelBase {
-
         #region 
         public long SelectedItemId => _selectedItem?.Id ?? default;
 
@@ -59,14 +59,18 @@ namespace TerraMours.Chat.Ava.ViewModels {
                 if (SelectedItemId != -1 && _selectedItem != null && !VMLocator.ChatViewModel.ChatIsRunning && DataGridIsFocused) {
                     VMLocator.ChatViewModel.LastId = _selectedItem.Id;
                     ShowChatLogAsync(_selectedItem.Id);
+                    ScrollToEndAction?.Invoke();
                 }
                 else if (!string.IsNullOrWhiteSpace(VMLocator.MainViewModel.SearchLogKeyword)) {
                     SelectedItemIndex = -1;
                 }
             }
         }
+
+        public Action ScrollToEndAction { get; set; }
+        public Action ScrollUpdateAction { get; set; }
         #endregion
-        private async void ShowChatLogAsync(long _selectedItem) {
+        public async void ShowChatLogAsync(long _selectedItem) {
             var _chatViewModel = VMLocator.ChatViewModel;
 
             if (!_chatViewModel.ChatIsRunning) {
@@ -75,26 +79,39 @@ namespace TerraMours.Chat.Ava.ViewModels {
                 }
             }
 
-            GptChatListByConversationId(_selectedItem);
+            GptChatListByConversationId(_selectedItem,true);
         }
 
-        private async Task GptChatListByConversationId(long conversationId)
+        public void ChatListNext()
         {
-            TMHttpClient http = new TMHttpClient();
-            var obj = new { ConversationId = conversationId, PageIndex = 1, PageSize = 20 };
-            var res = await http.PostAsync<PagedRes<Models.ChatMessage>>("/api/v1/Chat/ChatRecordList", obj);
+            if (SelectedItem != null)
+            {
+                GptChatListByConversationId(SelectedItem.Id);
+            }
+        }
+
+        private async Task GptChatListByConversationId(long conversationId, bool isNew = false) {
+            var pageSize = 10;
+            var pageIndex = isNew ? 1 : (VMLocator.ChatViewModel.ChatHistory?.Count / pageSize + 1) ?? 1;
+
+            var res = await new TMHttpClient().PostAsync<PagedRes<Models.ChatMessage>>("/api/v1/Chat/ChatRecordList", new { ConversationId = conversationId, PageIndex = pageIndex, PageSize = pageSize });
+
             if (res.StatusCode != 200) {
-                var dialog = new ContentDialog() {
-                    Title = $"接口报错：code：{res.StatusCode}.Msg:{JsonSerializer.Serialize(res.Message + res.Errors, new JsonSerializerOptions() {
-                        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
-                    })}",
+                await VMLocator.MainViewModel.ContentDialogShowAsync(new ContentDialog() {
+                    Title = $"接口报错：code：{res.StatusCode}.Msg:{JsonSerializer.Serialize(res.Message + res.Errors, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) })}",
                     PrimaryButtonText = "Ok"
-                };
-                await VMLocator.MainViewModel.ContentDialogShowAsync(dialog);
+                });
+
                 return;
             }
-            ObservableCollection<Models.ChatMessage> observableCollection = new ObservableCollection<Models.ChatMessage>(res.Data.Items);
-            VMLocator.ChatViewModel.ChatHistory= observableCollection;
+
+            var observableCollection = new ObservableCollection<Models.ChatMessage>(res.Data.Items);
+            VMLocator.ChatViewModel.ChatHistory = isNew ? observableCollection : new ObservableCollection<Models.ChatMessage>(VMLocator.ChatViewModel.ChatHistory.Concat(observableCollection));
+
+            if (observableCollection.Any()) {
+                ScrollUpdateAction?.Invoke();
+            }
         }
+
     }
 }

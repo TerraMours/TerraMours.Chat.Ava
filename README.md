@@ -1,5 +1,28 @@
-# TerraMours.Chat.Ava
-terramours.gpt项目跨平台的访问客户端项目，调用的terramours.gpt后端服务实现客户端访问gpt，后续添加AI绘图功能。
+<div align="center">
+	<h1>TerraMours.Chat.Ava平台版</h1>
+</div>
+
+![](https://img.shields.io/github/stars/TerraMours/TerraMours_Gpt_Api) ![](https://img.shields.io/github/forks/TerraMours/TerraMours_Gpt_Api)
+
+中文简介 | [English](README-EN.md)
+
+## 简介
+
+TerraMours.Chat.Ava ，是TerraMours 项目组为GPT项目开发的基于avalonia框架的跨平台客户端，调用**[TerraMours_Gpt_Api](https://github.com/TerraMours/TerraMours_Gpt_Api)**后端服务接口。目前已测试Windows和openKylin的linux系统中正常运行。
+
+# 项目截图
+
+### windows
+
+![登陆界面](https://www.raokun.top/upload/2023/08/image-20230809171641547.png)
+
+![聊天界面](https://www.raokun.top/upload/2023/08/image-20230809171723534.png)
+
+### openKylin系统-linux
+
+![登陆界面](https://www.raokun.top/upload/2023/08/image-1691574060766.png)
+![聊天界面](https://www.raokun.top/upload/2023/08/image-20230809173026090.png)
+
 ## 1.nuget包引用
 
 ![image-20230717150959484](https://www.raokun.top/upload/2023/07/image-20230717150959484.png)
@@ -63,21 +86,117 @@ terramours.gpt项目跨平台的访问客户端项目，调用的terramours.gpt�
 
 ### 2.界面交互
 
-* LoadView.axaml  **加载界面**：系统打开时候的加载界面，**用于首页替换的技术实践。可改造成登陆界面。**
+* LoginView.axaml  **加载登陆界面**。
 * MainWindow.axaml  **首页**
 * MainView.axaml  **主界面**
 * DataGridView.axaml  **会话列表**
 * ChatView.axaml  **聊天界面**
 * ApiSettingsView.axaml  **API配置**
 
-# 项目截图
+
+
+## 项目发布
+
+**打开命令行工具，并导航到你的 Avalonia 项目的根目录**
+
 windows
-![windows](https://www.raokun.top/upload/2023/07/image-20230718225201652.png)
-openKylin系统-linux
-![linux](https://www.raokun.top/upload/2023/07/image-20230725181623426.png)
+
+```sh
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishTrimmed=false /p:PublishReadyToRun=true /p:IncludeNativeLibrariesForSelfExtract=true
+```
+
+linux
+
+```
+dotnet publish -c Release -r linux-x64 --self-contained true /p:PublishSingleFile=true /p:PublishTrimmed=false /p:PublishReadyToRun=true /p:IncludeNativeLibrariesForSelfExtract=true
+```
+
+
+
+## 技术总结
 
 技术总结记录在我的博客中
 [基于Avalonia 11.0.0+ReactiveUI 的跨平台项目开发1-通用框架](https://www.raokun.top/archives/ji-yu-avalonia1100reactiveui-de-kua-ping-tai-xiang-mu-kai-fa-1--tong-yong-kuang-jia)
 
-
 [基于Avalonia 11.0.0+ReactiveUI 的跨平台项目开发2-功能开发](https://www.raokun.top/archives/ji-yu-avalonia1100reactiveui-de-kua-ping-tai-xiang-mu-kai-fa-2--gong-neng-kai-fa)
+
+
+
+
+
+## 整体项目文档
+
+- [项目文档地址](https://terramours.site/)
+
+
+
+## 后端服务特性
+
+##### 1.SignalR+Hangfire 实现后台任务队列和实时通讯
+
+##### 2.automapper 模型自动映射
+
+##### 3.对接口统一返回结果中间件ApiResponse{code,message,data}封装
+
+##### 4.Semantic Kernel 调用chatgpt
+
+##### 5.日志服务Seq
+
+##### 6.Stable Diffusion 图片生成
+
+## 开发功能
+
+- **AI聊天**：发起聊天，基于Semantic Kernel，目前写了chatgpt，常用模型：gpt-3.5-turbo，可支持gpt-3.5-turbo-16K,gpt-4
+- **AI绘图**：基于Stable Diffusion和chatgpt的dallE模型的图片生成
+- **聊天记录**：聊天记录管理，查询使用者会话信息。（todo：创建微调模型）
+- **敏感词管理**: 敏感词管理，自定义敏感词过滤，加强系统安全
+- **Key池管理**：Key池管理，支持管理者添加多个key组成Key池，调用ai接口时轮询，加强稳定性
+- **系统提示词**：系统提示词，添加各种角色提示词，让使用者能更好的使用ai对话。
+
+
+## web端在线预览
+
+- [TerraMours Admin 预览地址](https://demo.terramours.site/)
+
+## 前端服务
+
+- [TerraMours_Gpt_Web](https://github.com/TerraMours/TerraMours_Gpt_Web)
+
+## 开源作者
+
+[@Raokun](https://github.com/raokun)
+
+[@firstsaofan](https://github.com/orgs/TerraMours/people/firstsaofan)
+
+
+
+## 交流
+
+`TerraMours Admin` 是完全开源免费的项目，在帮助开发者更方便地进行中大型管理系统开发，同时也提供微信和 QQ 交流群，使用问题欢迎在群内提问。
+
+  <div style="display:flex;">
+  	<div style="padding-right:24px;">
+  		<p>QQ交流群</p>
+      <img src="https://www.raokun.top/upload/2023/06/%E4%BA%A4%E6%B5%81%E7%BE%A4.png" style="width:200px" />
+  	</div>
+		<div>
+			<p>添加本人微信，欢迎来技术交流，业务咨询</p>
+			<img src="https://www.raokun.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230405192146.jpg" style="width:180px" />
+		</div>
+  </div>
+
+
+## 捐赠
+
+如果你觉得这个项目对你有帮助，可以请 TerraMours 组员喝杯咖啡表示支持，TerraMours 开源的动力离不开各位的支持和鼓励。
+
+  <div style="display:flex;">
+  	<div style="padding-right:24px;">
+  		<p>微信</p>
+      <img src="https://www.raokun.top/upload/2023/04/%E5%BE%AE%E4%BF%A1%E6%94%B6%E6%AC%BE.jpg" style="width:200px" />
+  	</div>
+	<div style="padding-right:24px;">
+  		<p>支付宝</p>
+      <img src="https://www.raokun.top/upload/2023/04/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%B6%E6%AC%BE.jpg" style="width:200px" />
+  	</div>
+  </div>

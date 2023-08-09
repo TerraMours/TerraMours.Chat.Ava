@@ -90,7 +90,7 @@
                                        Source="/Assets/iconUpdate.png"
                                        VerticalAlignment="Center"/>
                             </Button>
-							<Button Grid.Column="2"
+							<!--<Button Grid.Column="2"
 									Flyout="{StaticResource ChatLogMenuFlyout}"
 									Classes="ImageButton"
 									VerticalAlignment="Center"
@@ -99,7 +99,7 @@
 								<Image Classes="ButtonIcon"
 									   Source="/Assets/iconSave.png"
 									   VerticalAlignment="Center"/>
-							</Button>
+							</Button>-->
 							<Button Grid.Column="3"
 									Command="{Binding DeleteChatLogCommand}"
 									Classes="ImageButton"
@@ -119,14 +119,16 @@
 							BorderThickness="0,1,0,0">
 						<local:DataGridView />
 					</Border>
-					<Grid Grid.Row="3">
+					<StackPanel Grid.Row="3"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right">
 						<Button ToolTip.Tip="System message"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							BorderThickness="0"
 							Width="28"
 							Height="28"
-							Margin="0,0,90,0"
+							Margin="0,0,3,0"
 							Command="{Binding SystemMessageCommand}">
 							<Image Source="/Assets/iconSystem.png"
 									VerticalAlignment="Center" />
@@ -137,12 +139,13 @@
 								BorderThickness="0"
 								Width="28"
 								Height="28"
-								Margin="0,0,60,0"
+								Margin="0,0,3,0"
 								Command="{Binding OpenApiSettingsCommand}">
 							<Image Source="/Assets/iconSetting.png"
 									VerticalAlignment="Center" />
 						</Button>
-						<Button ToolTip.Tip="Database settings"
+						<!--<Button ToolTip.Tip="Database settings"
+								IsEnabled="False"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Center"
 								BorderThickness="0"
@@ -162,8 +165,8 @@
 								Command="{Binding HotKeyDisplayCommand}">
 							<Image Source="/Assets/iconKeyboard.png"
 									VerticalAlignment="Center" />
-						</Button>
-					</Grid>
+						</Button>-->
+					</StackPanel>
 				</Grid>
 			</SplitView.Pane>
 			<Grid>

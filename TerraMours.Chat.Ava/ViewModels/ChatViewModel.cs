@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TerraMours.Chat.Ava.Models;
@@ -115,10 +118,26 @@ namespace TerraMours.Chat.Ava.ViewModels {
             var i = VMLocator.MainWindowViewModel.ApiMaxTokens;
             VMLocator.MainWindowViewModel.ApiMaxTokens=100;
         }
-        private async Task DeleteMessage() {
+        private async Task DeleteMessage()
+        {
             return;
         }
-
+        public async Task<bool> DeleteChatRecord(long RecordId) {
+            TMHttpClient http = new TMHttpClient();
+            var obj = new { recordId = RecordId };
+            var res = await http.GetAsync<bool>("/api/v1/Chat/DeleteChatRecord", obj);
+            if (res.StatusCode != 200) {
+                var dialog = new ContentDialog() {
+                    Title = $"接口报错：code：{res.StatusCode}.Msg:{JsonSerializer.Serialize(res.Message + res.Errors, new JsonSerializerOptions() {
+                        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+                    })}",
+                    PrimaryButtonText = "Ok"
+                };
+                await VMLocator.MainViewModel.ContentDialogShowAsync(dialog);
+                return false;
+            }
+            return true;
+        }
         #endregion
     }
 }

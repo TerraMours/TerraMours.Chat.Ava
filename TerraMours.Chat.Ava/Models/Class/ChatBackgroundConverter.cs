@@ -17,9 +17,11 @@ namespace TerraMours.Chat.Ava.Models.Class
             if (value is string Role)
                 switch (Role) {
                     case "User":
+                    case "user":
                         return new SolidColorBrush(Color.Parse("#b6a5a2"));
                         break;
                     case "Assient":
+                    case "assient":
                     default:
                         return new SolidColorBrush(Color.Parse("#444654"));
                         break;

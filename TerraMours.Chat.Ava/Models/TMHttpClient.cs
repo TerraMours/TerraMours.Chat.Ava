@@ -48,7 +48,7 @@ namespace TerraMours.Chat.Ava.Models {
         }
 
 
-        public  async Task<TResponse> GetAsync<TResponse>(string url, object dto) {
+        public  async Task<ApiResponse<TResponse>> GetAsync<TResponse>(string url, object dto) {
             var queryString = string.Join("&",
                 dto.GetType().GetProperties()
                     .Select(property => $"{property.Name}={HttpUtility.UrlEncode(property.GetValue(dto)?.ToString())}"));
@@ -57,7 +57,22 @@ namespace TerraMours.Chat.Ava.Models {
 
             var response = await httpClient.GetAsync(requestUrl);
 
-            return await JsonSerializer.DeserializeAsync<TResponse>(await response.Content.ReadAsStreamAsync());
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode) {
+                var responseData = JsonSerializer.Deserialize<ApiResponse<TResponse>>(responseContent, new JsonSerializerOptions {
+                    PropertyNameCaseInsensitive = true
+                });
+                return responseData;
+            }
+            else {
+                var errorResponse = JsonSerializer.Deserialize<ApiResponse<object>>(responseContent);
+                return new ApiResponse<TResponse> {
+                    StatusCode = (int)response.StatusCode,
+                    Message = null,
+                    Errors = errorResponse.Errors
+                };
+            }
         }
     }
 }
