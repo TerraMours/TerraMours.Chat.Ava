@@ -103,7 +103,7 @@ namespace TerraMours.Chat.Ava {
             ApiModel = "gpt-3.5-turbo";
             ApiUrl = "https://api.openai.com/v1/chat/completions";
             ApiKey = null;
-            MaxContentLength = 3072;
+            MaxContentLength = 1;
 
             ApiMaxTokensIsEnable = false;
             ApiTemperatureIsEnable = false;

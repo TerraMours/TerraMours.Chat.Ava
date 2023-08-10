@@ -4,9 +4,7 @@
     <!-- Add Resources Here -->
 	<system:String x:Key="My.Strings.PhrasePresets">短语预设 :</system:String>
 	<system:String x:Key="My.Strings.ConversationHitoryInfo">
-		“对话历史限制”是一个客户端选项，而不是API参数。
-		当超过设定值（令牌）时，
-		会话历史记录将被自动总结。
+		“history count”是一个上下文选项，控制聊天的上下文，请根据情况设置。
 	</system:String>
 	<system:String x:Key="My.Strings.DatabaseInfo">将数据库文件移动到云文件夹（例如DropBox）并从另一台计算机加载，可以同步聊天日志和短语预设。</system:String>
 	<system:String x:Key="My.Strings.ChatScreenInfo">请显示聊天屏幕。</system:String>

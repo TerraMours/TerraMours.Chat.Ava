@@ -462,15 +462,29 @@ namespace TerraMours.Chat.Ava.ViewModels {
                 return;
             var userMessge = new Models.ChatMessage() { ConversationId = VMLocator.DataGridViewModel.SelectedItemId, Message = PostMessage, Role = "User", CreateDate = DateTime.Now };
             VMLocator.ChatViewModel.ChatHistory.Add(userMessge);
-            VMLocator.MainViewModel.PostMessage = "";
 
             //await VMLocator.ChatDbcontext.ChatMessages.AddAsync(userMessge);
             //await VMLocator.ChatDbcontext.SaveChangesAsync();
             //列表下拉到底部
             VMLocator.DataGridViewModel.ScrollToEndAction?.Invoke();
             TMHttpClient http = new TMHttpClient();
-            var obj = new { Prompt =PostMessage, SystemMessage =SystemMessage, ConversationId =VMLocator.DataGridViewModel.SelectedItemId, Model =AppSettings.Instance.ApiModel, ModelType =1};
+            var obj = new
+            {
+                Prompt =PostMessage, 
+                SystemMessage =SystemMessage, 
+                ConversationId =VMLocator.DataGridViewModel.SelectedItemId, Model =AppSettings.Instance.ApiModel, ModelType =1,
+                MaxTokens = AppSettings.Instance.ApiMaxTokensIsEnable ? AppSettings.Instance.ApiMaxTokens : (int?)null,
+                TopP = AppSettings.Instance.ApiTopPIsEnable ? (float?)AppSettings.Instance.ApiTopP : null,
+                N = AppSettings.Instance.ApiNIsEnable ? AppSettings.Instance.ApiN : (int?)null,
+                PresencePenalty = AppSettings.Instance.ApiPresencePenaltyIsEnable ? (float?)AppSettings.Instance.ApiPresencePenalty : null,
+                FrequencyPenalty = AppSettings.Instance.ApiFrequencyPenaltyIsEnable ? (float?)AppSettings.Instance.ApiFrequencyPenalty : null,
+                Stop = AppSettings.Instance.ApiStopIsEnable ? AppSettings.Instance.ApiStop : null,
+                Temperature = AppSettings.Instance.ApiTemperatureIsEnable ? (float?)AppSettings.Instance.ApiTemperature : null,
+                LogitBias = AppSettings.Instance.ApiLogitBiasIsEnable ? AppSettings.Instance.ApiLogitBias : null,
+                ContextCount= AppSettings.Instance.MaxContentLengthIsEnable?AppSettings.Instance.MaxContentLength: (int?)null
+            };
             var res =await http.PostAsync<Models.ChatMessage>("/api/v1/Chat/ChatCompletion", obj);
+            VMLocator.MainViewModel.PostMessage = "";
             if (res.StatusCode != 200) {
                 var dialog = new ContentDialog() {
                     Title = $"接口报错：code：{res.StatusCode}.Msg:{JsonSerializer.Serialize(res.Message+res.Errors, new JsonSerializerOptions() {

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="980" d:DesignHeight="980"
+             mc:Ignorable="d" d:DesignWidth="980" d:DesignHeight="900"
 			 xmlns:local="using:TerraMours.Chat.Ava"
 			 xmlns:vm="using:TerraMours.Chat.Ava.ViewModels"
 			 x:DataType="vm:MainWindowViewModel"
@@ -96,11 +96,11 @@
 		<ToggleSwitch Grid.Row="10" Grid.Column="3" IsEnabled="False" IsChecked="{Binding ApiBestOfIsEnable}" />
 		<TextBlock Grid.Row="10" Grid.Column="4" Text="1" />-->
 
-		<TextBlock Grid.Row="11" Grid.Column="0" Text="conversation history &#xA;limit" TextAlignment="Right"/>
-		<Slider Grid.Row="11" Grid.Column="1" IsSnapToTickEnabled="True" TickFrequency="1" Minimum="1" Maximum="4096" Value="{Binding MaxContentLength}" />
-		<local:CustomNumericUpDown Grid.Row="11" Grid.Column="2" FormatString="{}{0:#0}" Minimum="1" Maximum="4096" Increment="1" Value="{Binding MaxContentLength}"/>
+		<TextBlock Grid.Row="11" Grid.Column="0" Text="history &#xA;count" TextAlignment="Right"/>
+		<Slider Grid.Row="11" Grid.Column="1" IsSnapToTickEnabled="True" TickFrequency="1" Minimum="0" Maximum="10" Value="{Binding MaxContentLength}" />
+		<local:CustomNumericUpDown Grid.Row="11" Grid.Column="2" FormatString="{}{0:#0}" Minimum="0" Maximum="10" Increment="1" Value="{Binding MaxContentLength}"/>
 		<ToggleSwitch Grid.Row="11" Grid.Column="3" IsChecked="{Binding MaxContentLengthIsEnable}" />
-		<TextBlock Grid.Row="11" Grid.Column="4" Text="3072" />
+		<TextBlock Grid.Row="11" Grid.Column="4" Text="10" />
 
 		<TextBlock Grid.Row="12" Grid.Column="0" Text=" "/>
 
@@ -116,11 +116,11 @@
 
 		<TextBlock Grid.Row="15" Grid.Column="0" Text=" "/>
 
-		<TextBlock Grid.Row="16" Grid.Column="0" Text="url" TextAlignment="Right"/>
+		<!--<TextBlock Grid.Row="16" Grid.Column="0" Text="url" TextAlignment="Right"/>
 		<TextBox Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="2" AcceptsReturn="False" Classes.clearButton="True" Text="{Binding ApiUrl}" />
 
 		<TextBlock Grid.Row="17" Grid.Column="0" Text="API key" TextAlignment="Right" />
-		<TextBox Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="2" AcceptsReturn="False" PasswordChar="*" RevealPassword="False" Classes="revealPasswordButton" Margin="10,18,0,15" Text="{Binding ApiKey}" />
+		<TextBox Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="2" AcceptsReturn="False" PasswordChar="*" RevealPassword="False" Classes="revealPasswordButton" Margin="10,18,0,15" Text="{Binding ApiKey}" />-->
 
 		<TextBlock Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="5" FontSize="12" Text="{DynamicResource My.Strings.ConversationHitoryInfo}" HorizontalAlignment="Center" />
 
